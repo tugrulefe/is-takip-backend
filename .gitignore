@@ -1,6 +1,5 @@
 # Dependencies
 node_modules/
-package-lock.json
 
 # Environment
 .env
@@ -24,8 +23,10 @@ pids
 *.db
 
 # Uploads
-uploads/
-backups/
+uploads/*
+!uploads/.gitkeep
+backups/*
+!backups/.gitkeep
 
 # IDE
 .idea/
