@@ -1,28 +1,15 @@
 const { Sequelize } = require('sequelize');
 
-let sequelize;
-
-if (process.env.DATABASE_URL) {
-    // Production environment (Render)
-    sequelize = new Sequelize(process.env.DATABASE_URL, {
-        dialect: 'postgres',
-        protocol: 'postgres',
-        dialectOptions: {
-            ssl: {
-                require: true,
-                rejectUnauthorized: false
-            }
-        },
-        logging: false
-    });
-} else {
-    // Development environment (Local)
-    sequelize = new Sequelize({
-        dialect: 'sqlite',
-        storage: './database.sqlite',
-        logging: false
-    });
-}
+const sequelize = new Sequelize(process.env.DATABASE_URL || 'sqlite::memory:', {
+    dialect: process.env.DATABASE_URL ? 'postgres' : 'sqlite',
+    dialectOptions: process.env.DATABASE_URL ? {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false
+        }
+    } : {},
+    logging: false
+});
 
 // Veritabanı bağlantısını test et
 const testConnection = async () => {
